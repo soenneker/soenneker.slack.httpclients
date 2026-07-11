@@ -11,4 +11,10 @@ namespace Soenneker.Slack.HttpClients.Abstract;
 public interface ISlackOpenApiHttpClient: IDisposable, IAsyncDisposable
 {
     ValueTask<HttpClient> Get(CancellationToken cancellationToken = default);
+
+    /// <summary>Gets a client for a specific Slack API token using the configured base URL.</summary>
+    ValueTask<HttpClient> Get(string apiKey, CancellationToken cancellationToken = default);
+
+    /// <summary>Gets a client for a specific Slack connection.</summary>
+    ValueTask<HttpClient> Get(string apiKey, string baseUrl, CancellationToken cancellationToken = default);
 }
