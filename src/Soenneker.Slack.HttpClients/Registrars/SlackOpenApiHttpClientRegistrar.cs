@@ -6,12 +6,12 @@ using Soenneker.Utils.HttpClientCache.Registrar;
 namespace Soenneker.Slack.HttpClients.Registrars;
 
 /// <summary>
-/// Registers the OpenAPI HttpClient wrapper for dependency injection.
+/// Registers the authenticated Slack HTTP client provider.
 /// </summary>
 public static class SlackOpenApiHttpClientRegistrar
 {
     /// <summary>
-    /// Adds <see cref="SlackOpenApiHttpClient"/> as a singleton service. <para/>
+    /// Adds the Slack HTTP client provider as a singleton service. <para/>
     /// </summary>
     public static IServiceCollection AddSlackOpenApiHttpClientAsSingleton(this IServiceCollection services)
     {
@@ -22,7 +22,7 @@ public static class SlackOpenApiHttpClientRegistrar
     }
 
     /// <summary>
-    /// Adds <see cref="SlackOpenApiHttpClient"/> as a scoped service. <para/>
+    /// Adds the Slack HTTP client provider as a scoped service. Each scope owns its cached workspace clients. <para/>
     /// </summary>
     public static IServiceCollection AddSlackOpenApiHttpClientAsScoped(this IServiceCollection services)
     {

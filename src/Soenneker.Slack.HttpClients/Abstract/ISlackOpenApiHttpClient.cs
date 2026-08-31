@@ -6,10 +6,11 @@ using System.Threading;
 namespace Soenneker.Slack.HttpClients.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides authenticated HTTP clients for one or more Slack workspaces.
 /// </summary>
-public interface ISlackOpenApiHttpClient: IDisposable, IAsyncDisposable
+public interface ISlackOpenApiHttpClient : IDisposable, IAsyncDisposable
 {
+    /// <summary>Gets the client configured by <c>Slack:ApiKey</c> and <c>Slack:ClientBaseUrl</c>.</summary>
     ValueTask<HttpClient> Get(CancellationToken cancellationToken = default);
 
     /// <summary>Gets a client for a specific Slack API token using the configured base URL.</summary>
@@ -17,4 +18,10 @@ public interface ISlackOpenApiHttpClient: IDisposable, IAsyncDisposable
 
     /// <summary>Gets a client for a specific Slack connection.</summary>
     ValueTask<HttpClient> Get(string apiKey, string baseUrl, CancellationToken cancellationToken = default);
+
+    /// <summary>Removes and disposes every Slack HTTP client owned by this provider.</summary>
+    new void Dispose();
+
+    /// <summary>Asynchronously removes and disposes every Slack HTTP client owned by this provider.</summary>
+    new ValueTask DisposeAsync();
 }

@@ -13,7 +13,6 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Slack.HttpClients;
 
-///<inheritdoc cref="ISlackOpenApiHttpClient"/>
 public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
@@ -22,6 +21,7 @@ public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
     private readonly string _authHeaderName;
     private readonly string _authHeaderValueTemplate;
     private readonly ConcurrentDictionary<string, byte> _clientIds = new();
+    private readonly string _instanceId = Guid.NewGuid().ToString("N");
 
     private const string _prodBaseUrl = "https://slack.com";
 
@@ -46,9 +46,6 @@ public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
 
     public ValueTask<HttpClient> Get(string apiKey, string baseUrl, CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
-
         var baseUri = new Uri(baseUrl, UriKind.Absolute);
         string clientId = GetClientId(apiKey, baseUri);
         _clientIds.TryAdd(clientId, 0);
@@ -73,7 +70,7 @@ public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
     {
         string value = string.Concat(apiKey, "\0", baseUri, "\0", _authHeaderName, "\0", _authHeaderValueTemplate);
 
-        return $"{nameof(SlackOpenApiHttpClient)}:{XxHash3Util.Hash(value)}";
+        return $"{nameof(SlackOpenApiHttpClient)}:{_instanceId}:{XxHash3Util.Hash(value)}";
     }
 
     public void Dispose()
