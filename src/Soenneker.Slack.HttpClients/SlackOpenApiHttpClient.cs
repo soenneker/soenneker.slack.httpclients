@@ -13,6 +13,7 @@ using Soenneker.Utils.HttpClientCache.Abstract;
 
 namespace Soenneker.Slack.HttpClients;
 
+/// <inheritdoc cref="ISlackOpenApiHttpClient" />
 public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
