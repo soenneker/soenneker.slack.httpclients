@@ -37,7 +37,7 @@ public sealed class SlackOpenApiHttpClient : ISlackOpenApiHttpClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return Get(_configuration.GetValueStrict<string>("Slack:ApiKey"), _baseUrl, cancellationToken);
+        return Get(_configuration.GetStringStrict("Slack:ApiKey"), _baseUrl, cancellationToken);
     }
 
     public ValueTask<HttpClient> Get(string apiKey, CancellationToken cancellationToken = default)
